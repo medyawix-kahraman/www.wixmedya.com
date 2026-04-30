@@ -123,7 +123,24 @@ a{text-decoration:none;color:inherit}
   opacity:0;animation:iFadeUp .5s 1.8s ease forwards;
 }
 @keyframes iFadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes sceneFade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
+
+/* WhatsApp Floating Button */
+.wa-float{
+  position:fixed;bottom:1.5rem;right:1.5rem;z-index:400;
+  width:56px;height:56px;border-radius:50%;
+  background:#25D366;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 20px rgba(37,211,102,.4);
+  transition:transform .2s,box-shadow .2s;
+  animation:waPulse 2s ease-in-out infinite;
+}
+.wa-float:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(37,211,102,.6)}
+@keyframes waPulse{
+  0%,100%{box-shadow:0 4px 20px rgba(37,211,102,.4),0 0 0 0 rgba(37,211,102,.3)}
+  50%{box-shadow:0 4px 20px rgba(37,211,102,.4),0 0 0 12px rgba(37,211,102,0)}
+}
 /* ====== NAV ====== */
 .nav{
   position:fixed;top:0;left:0;right:0;z-index:600;
@@ -133,9 +150,9 @@ a{text-decoration:none;color:inherit}
 }
 @media(min-width:768px){.nav{padding:1.75rem 3rem}}
 .nav-logo{font-family:var(--fu);font-size:.85rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--white)}
-.nav-btn{background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:8px;font-family:var(--fu);font-size:.6rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--white);padding:0}
-.nav-lines{display:flex;flex-direction:column;gap:4px}
-.nav-lines span{display:block;width:20px;height:1px;background:var(--white);transition:transform .4s;transform-origin:center}
+.nav-btn{background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:10px;font-family:var(--fu);font-size:.75rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--white);padding:0}
+.nav-lines{display:flex;flex-direction:column;gap:6px}
+.nav-lines span{display:block;width:26px;height:2px;background:var(--white);transition:transform .4s;transform-origin:center;border-radius:1px}
 .nav-btn.open .nav-lines span:nth-child(1){transform:rotate(45deg) translate(3.5px,3.5px)}
 .nav-btn.open .nav-lines span:nth-child(2){transform:rotate(-45deg) translate(3.5px,-3.5px)}
 
@@ -208,14 +225,14 @@ a{text-decoration:none;color:inherit}
 .ticker{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:.75rem 0;overflow:hidden;white-space:nowrap}
 .ticker-inner{display:inline-flex;gap:2rem;animation:tick 28s linear infinite}
 @keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.ti{font-size:.62rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gray);display:flex;align-items:center;gap:.9rem;flex-shrink:0}
+.ti{font-size:.7rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gray);display:flex;align-items:center;gap:.9rem;flex-shrink:0}
 .ti::after{content:'✦';color:var(--accent);font-size:.36rem}
 
 /* ====== SECTION BASE ====== */
 section{padding:4rem 1.5rem}
 @media(min-width:768px){section{padding:6.5rem 3rem}}
 .sep{border-top:1px solid var(--border)}
-.s-lbl{font-size:.62rem;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:.6rem;margin-bottom:2.5rem}
+.s-lbl{font-size:.7rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:.6rem;margin-bottom:2.5rem}
 .s-lbl::before{content:'';display:inline-block;width:20px;height:1px;background:var(--accent)}
 
 /* ====== ABOUT ====== */
@@ -242,13 +259,13 @@ section{padding:4rem 1.5rem}
 .scene-tab.active,.scene-tab:hover{background:var(--accent);color:var(--black);border-color:var(--accent)}
 .scene-panel{display:none;gap:2rem}
 @media(min-width:768px){.scene-panel{gap:3.5rem}}
-.scene-panel.active{display:grid;grid-template-columns:1fr}
+.scene-panel.active{display:grid;grid-template-columns:1fr;animation:sceneFade .4s ease}
 @media(min-width:768px){.scene-panel.active{grid-template-columns:1fr 1fr;align-items:center}}
 .scene-title{font-family:var(--fb);font-size:clamp(2rem,5vw,4rem);line-height:.9;margin-bottom:1.1rem;letter-spacing:.02em}
 .scene-title .ac{color:var(--accent)}
-.scene-desc{font-size:1rem;line-height:1.9;color:var(--dim);margin-bottom:1.5rem}
+.scene-desc{font-size:1.05rem;line-height:1.9;color:var(--dim);margin-bottom:1.5rem}
 .scene-tags{display:flex;flex-wrap:wrap;gap:.45rem}
-.stag{font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);border:1px solid var(--border);padding:.32rem .75rem;transition:all .3s}
+.stag{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);border:1px solid var(--border);padding:.38rem .85rem;transition:all .3s}
 .stag:hover{border-color:var(--accent);color:var(--accent)}
 
 /* Video mock ekran */
@@ -296,9 +313,9 @@ section{padding:4rem 1.5rem}
 .ecard-icon{width:30px;height:30px;margin-bottom:.7rem;border-radius:5px}
 .ecard-lbl{font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:.45rem}
 .ecard-title{font-family:var(--fu);font-size:.9rem;font-weight:700;color:var(--white);margin-bottom:.45rem;line-height:1.2}
-.ecard-desc{font-size:.95rem;line-height:1.8;color:var(--gray)}
+.ecard-desc{font-size:1rem;line-height:1.82;color:var(--gray)}
 .mpills{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:1.5rem}
-.mpill{font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);border:1px solid var(--border);padding:.3rem .7rem;transition:border-color .3s,color .3s}
+.mpill{font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);border:1px solid var(--border);padding:.35rem .8rem;transition:border-color .3s,color .3s}
 .mpill:hover{border-color:var(--accent);color:var(--accent)}
 
 /* ====== HİZMETLER LİSTESİ ====== */
@@ -329,20 +346,20 @@ section{padding:4rem 1.5rem}
 .c-btn.out:hover{background:var(--accent);color:var(--black);border-color:var(--accent)}
 .why-box{background:#0a0a0a;border:1px solid var(--border);padding:2rem}
 .why-title{font-size:.62rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem}
-.why-box p{font-size:1rem;line-height:1.85;color:var(--dim)}
+.why-box p{font-size:1.05rem;line-height:1.9;color:var(--dim)}
 
 /* ====== PARTNERS ====== */
 .ptrack{display:inline-flex;gap:.85rem;white-space:nowrap;animation:tick 22s linear infinite;margin-top:1.75rem}
-.pbadge{flex-shrink:0;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gray);border:1px solid var(--border);padding:.4rem .95rem;transition:border-color .3s,color .3s}
+.pbadge{flex-shrink:0;font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gray);border:1px solid var(--border);padding:.45rem 1rem;transition:border-color .3s,color .3s}
 .pbadge:hover{border-color:var(--accent);color:var(--accent)}
 
 /* ====== FOOTER ====== */
 footer{border-top:1px solid var(--border);padding:1.75rem 1.5rem;display:flex;flex-direction:column;gap:.85rem}
 @media(min-width:768px){footer{flex-direction:row;justify-content:space-between;align-items:center;padding:1.75rem 3rem}}
 .f-logo{font-family:var(--fu);font-size:.8rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase}
-.f-copy{font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray)}
+.f-copy{font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray)}
 .f-links{display:flex;gap:1.4rem;flex-wrap:wrap}
-.f-links a{font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);transition:color .3s}
+.f-links a{font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);transition:color .3s}
 .f-links a:hover{color:var(--accent)}
 
 /* ====== SCROLL REVEAL ====== */
@@ -413,6 +430,12 @@ footer{border-top:1px solid var(--border);padding:1.75rem 1.5rem;display:flex;fl
   </div>
 </div>
 
+<!-- WhatsApp Float -->
+<a href="https://wa.me/905325751971" class="wa-float" target="_blank" aria-label="WhatsApp">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+  </svg>
+</a>
 <!-- ====== NAV ====== -->
 <nav class="nav">
   <a href="#" class="nav-logo">WixMedya</a>
@@ -648,16 +671,16 @@ footer{border-top:1px solid var(--border);padding:1.75rem 1.5rem;display:flex;fl
 <section class="sep rv">
   <div class="s-lbl">Tüm Hizmetler</div>
   <div>
-    <div class="svc"><div class="svc-l"><span class="svc-num">01</span><span class="svc-n">Web Tasarım & Geliştirme</span></div><span class="svc-arr">↗</span></div>
-    <div class="svc"><div class="svc-l"><span class="svc-num">02</span><span class="svc-n">Marka Kimliği & Kurumsal Tasarım</span></div><span class="svc-arr">↗</span></div>
-    <div class="svc"><div class="svc-l"><span class="svc-num">03</span><span class="svc-n">Google Reklam Yönetimi</span></div><span class="svc-arr">↗</span></div>
-    <div class="svc"><div class="svc-l"><span class="svc-num">04</span><span class="svc-n">Meta Reklam Yönetimi</span></div><span class="svc-arr">↗</span></div>
-    <div class="svc"><div class="svc-l"><span class="svc-num">05</span><span class="svc-n">E-Ticaret Kurulum & Büyüme</span></div><span class="svc-arr">↗</span></div>
-    <div class="svc"><div class="svc-l"><span class="svc-num">06</span><span class="svc-n">Pazaryeri Yönetimi</span></div><span class="svc-arr">↗</span></div>
-    <div class="svc"><div class="svc-l"><span class="svc-num">07</span><span class="svc-n">Sosyal Medya & İçerik Yönetimi</span></div><span class="svc-arr">↗</span></div>
-    <div class="svc"><div class="svc-l"><span class="svc-num">08</span><span class="svc-n">SEO & Teknik Performans</span></div><span class="svc-arr">↗</span></div>
-    <div class="svc"><div class="svc-l"><span class="svc-num">09</span><span class="svc-n">Web & İş Akışı Otomasyonu</span></div><span class="svc-arr">↗</span></div>
-    <div class="svc"><div class="svc-l"><span class="svc-num">10</span><span class="svc-n">Veri Analizi & Raporlama</span></div><span class="svc-arr">↗</span></div>
+    <div class="svc" onclick="goScene('web')" style="cursor:pointer"><div class="svc-l"><span class="svc-num">01</span><span class="svc-n">Web Tasarım & Geliştirme</span></div><span class="svc-arr">↗</span></div>
+    <div class="svc" onclick="goScene('marka')" style="cursor:pointer"><div class="svc-l"><span class="svc-num">02</span><span class="svc-n">Marka Kimliği & Kurumsal Tasarım</span></div><span class="svc-arr">↗</span></div>
+    <div class="svc" onclick="goScene('google')" style="cursor:pointer"><div class="svc-l"><span class="svc-num">03</span><span class="svc-n">Google Reklam Yönetimi</span></div><span class="svc-arr">↗</span></div>
+    <div class="svc" onclick="goScene('meta')" style="cursor:pointer"><div class="svc-l"><span class="svc-num">04</span><span class="svc-n">Meta Reklam Yönetimi</span></div><span class="svc-arr">↗</span></div>
+    <div class="svc" onclick="goScene('eticaret')" style="cursor:pointer"><div class="svc-l"><span class="svc-num">05</span><span class="svc-n">E-Ticaret Kurulum & Büyüme</span></div><span class="svc-arr">↗</span></div>
+    <div class="svc" onclick="goScene('eticaret')" style="cursor:pointer"><div class="svc-l"><span class="svc-num">06</span><span class="svc-n">Pazaryeri Yönetimi</span></div><span class="svc-arr">↗</span></div>
+    <div class="svc" onclick="goScene('meta')" style="cursor:pointer"><div class="svc-l"><span class="svc-num">07</span><span class="svc-n">Sosyal Medya & İçerik Yönetimi</span></div><span class="svc-arr">↗</span></div>
+    <div class="svc" onclick="goScene('google')" style="cursor:pointer"><div class="svc-l"><span class="svc-num">08</span><span class="svc-n">SEO & Teknik Performans</span></div><span class="svc-arr">↗</span></div>
+    <div class="svc" onclick="goScene('otomasyon')" style="cursor:pointer"><div class="svc-l"><span class="svc-num">09</span><span class="svc-n">Web & İş Akışı Otomasyonu</span></div><span class="svc-arr">↗</span></div>
+    <div class="svc" onclick="goScene('google')" style="cursor:pointer"><div class="svc-l"><span class="svc-num">10</span><span class="svc-n">Veri Analizi & Raporlama</span></div><span class="svc-arr">↗</span></div>
   </div>
 </section>
 
@@ -853,8 +876,27 @@ function closeMenu(){
 function showScene(id,btn){
   document.querySelectorAll(".scene-panel").forEach(function(p){p.classList.remove("active")});
   document.querySelectorAll(".scene-tab").forEach(function(t){t.classList.remove("active")});
-  document.getElementById("sp-"+id).classList.add("active");
+  var panel=document.getElementById("sp-"+id);
+  panel.classList.add("active");
   btn.classList.add("active");
+  /* Scroll to section smoothly */
+  setTimeout(function(){
+    panel.scrollIntoView({behavior:"smooth",block:"nearest"});
+  },50);
+}
+
+/* GO TO SCENE */
+function goScene(id){
+  var section=document.getElementById("hizmetler");
+  section.scrollIntoView({behavior:"smooth",block:"start"});
+  setTimeout(function(){
+    document.querySelectorAll(".scene-panel").forEach(function(p){p.classList.remove("active")});
+    document.querySelectorAll(".scene-tab").forEach(function(t){t.classList.remove("active")});
+    document.getElementById("sp-"+id).classList.add("active");
+    var tabs=document.querySelectorAll(".scene-tab");
+    var map={web:0,google:1,meta:2,eticaret:3,marka:4,otomasyon:5};
+    if(map[id]!==undefined)tabs[map[id]].classList.add("active");
+  },600);
 }
 
 /* SCROLL REVEAL */
