@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WixMedya — Dijitalin Her Yerindeyiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+/* ============ RESET ============ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --black:#060606;
+  --white:#f2f0eb;
+  --accent:#c8ff00;
+  --gray:#666;
+  --dim:rgba(242,240,235,0.55);
+  --border:rgba(255,255,255,0.07);
+  --fb:"Bebas Neue",sans-serif;
+  --fd:"Cormorant Garamond",serif;
+  --fu:"Syne",sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--white);font-family:var(--fu);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+img{display:block;max-width:100%}
+
+/* ============ INTRO — LAZER ============ */
+#intro{
+  position:fixed;inset:0;z-index:9999;
+  background:#000;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+  transition:opacity 1.2s ease, visibility 1.2s ease;
+}
+#intro.hide{opacity:0;visibility:hidden;pointer-events:none}
+
+/* Yıldız arkaplan */
+.stars{position:absolute;inset:0;overflow:hidden}
+.star{
+  position:absolute;background:#fff;border-radius:50%;
+  animation:twinkle linear infinite;
+}
+@keyframes twinkle{
+  0%,100%{opacity:.2;transform:scale(1)}
+  50%{opacity:1;transform:scale(1.4)}
+}
+
+/* Lazer ışını — yukarıdan aşağı */
+.laser-beam{
+  position:absolute;
+  top:-100%;left:50%;
+  width:2px;
+  height:60%;
+  background:linear-gradient(to bottom,transparent,#c8ff00,#fff,#c8ff00,transparent);
+  transform:translateX(-50%);
+  filter:blur(1px) drop-shadow(0 0 8px #c8ff00) drop-shadow(0 0 20px #c8ff00);
+  animation:laserDrop 1.2s 0.3s cubic-bezier(.22,1,.36,1) forwards;
+  opacity:0;
+}
+@keyframes laserDrop{
+  0%{top:-60%;opacity:0}
+  20%{opacity:1}
+  100%{top:35%;opacity:1}
+}
+
+/* Çarpma dalgası */
+.laser-impact{
+  position:absolute;
+  top:calc(35% + 55%);
+  left:50%;transform:translateX(-50%);
+  width:4px;height:4px;
+  border-radius:50%;
+  background:#c8ff00;
+  box-shadow:0 0 0 0 rgba(200,255,0,.8);
+  animation:impactRing 0.5s 1.4s ease-out forwards;
+  opacity:0;
+}
+@keyframes impactRing{
+  0%{opacity:1;box-shadow:0 0 0 0 rgba(200,255,0,.9)}
+  100%{opacity:0;box-shadow:0 0 0 120px rgba(200,255,0,0)}
+}
+
+/* WİXMEDYA yazı — harf harf */
+.intro-text{
+  position:relative;z-index:2;
+  display:flex;flex-direction:column;align-items:center;
+  gap:1rem;
+}
+.intro-brand{
+  font-family:var(--fb);
+  font-size:clamp(2.5rem,12vw,9rem);
+  letter-spacing:.12em;
+  display:flex;gap:.05em;
+  filter:drop-shadow(0 0 30px rgba(200,255,0,.4));
+}
+.intro-brand span{
+  display:inline-block;
+  color:transparent;
+  opacity:0;
+  transform:translateY(-30px) scaleY(1.3);
+  animation:letterDrop .4s ease forwards;
+  background:linear-gradient(180deg,#fff 0%,var(--accent) 60%,#fff 100%);
+  -webkit-background-clip:text;background-clip:text;
+  text-shadow:none;
+}
+/* Her harf için gecikme */
+.intro-brand span:nth-child(1){animation-delay:1.5s}
+.intro-brand span:nth-child(2){animation-delay:1.65s}
+.intro-brand span:nth-child(3){animation-delay:1.8s}
+.intro-brand span:nth-child(4){animation-delay:1.95s}
+.intro-brand span:nth-child(5){animation-delay:2.1s}
+.intro-brand span:nth-child(6){animation-delay:2.25s}
+.intro-brand span:nth-child(7){animation-delay:2.4s}
+.intro-brand span:nth-child(8){animation-delay:2.55s}
+.intro-brand span:nth-child(9){animation-delay:2.65s}
+
+@keyframes letterDrop{
+  0%{opacity:0;transform:translateY(-30px) scaleY(1.3)}
+  60%{opacity:1;transform:translateY(4px) scaleY(.95)}
+  100%{opacity:1;transform:translateY(0) scaleY(1)}
+}
+
+.intro-line{
+  width:0;height:1px;
+  background:linear-gradient(to right,transparent,var(--accent),transparent);
+  animation:introLine .6s 2.8s ease forwards;
+}
+@keyframes introLine{to{width:min(400px,80vw)}}
+
+.intro-sub{
+  font-family:var(--fu);font-size:clamp(.5rem,1.5vw,.75rem);
+  font-weight:700;letter-spacing:.4em;text-transform:uppercase;
+  color:rgba(200,255,0,.7);
+  opacity:0;animation:fadeUp .5s 3s ease forwards;
+}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ============ CURSOR ============ */
+@media(hover:hover) and (pointer:fine){
+  body{cursor:none}
+  .cur,.cur-r{display:block;position:fixed;pointer-events:none;border-radius:50%;z-index:8000}
+  .cur{width:7px;height:7px;background:var(--accent);transform:translate(-50%,-50%)}
+  .cur-r{width:32px;height:32px;border:1px solid rgba(200,255,0,.3);transform:translate(-50%,-50%);transition:width .4s,height .4s,border-color .4s}
+  .cur-r.big{width:54px;height:54px;border-color:rgba(200,255,0,.7)}
+}
+.cur,.cur-r{display:none}
+
+/* ============ NAV ============ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:6000;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.4rem 1.5rem;
+}
+@media(min-width:768px){.nav{padding:1.8rem 3rem}}
+.nav-logo{font-family:var(--fu);font-size:.85rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--white)}
+.nav-btn{background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:8px;font-family:var(--fu);font-size:.58rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--white);padding:0}
+.nav-lines{display:flex;flex-direction:column;gap:4px}
+.nav-lines span{display:block;width:20px;height:1px;background:var(--white);transition:transform .4s;transform-origin:center}
+.nav-btn.open .nav-lines span:nth-child(1){transform:rotate(45deg) translate(3.5px,3.5px)}
+.nav-btn.open .nav-lines span:nth-child(2){transform:rotate(-45deg) translate(3.5px,-3.5px)}
+
+/* ============ OVERLAY ============ */
+.overlay{
+  position:fixed;inset:0;z-index:5000;
+  background:var(--accent);
+  display:flex;flex-direction:column;justify-content:center;
+  padding:7rem 1.5rem 3rem;
+  transform:translateY(-100%);visibility:hidden;
+  transition:transform .85s cubic-bezier(.77,0,.175,1),visibility .85s;
+}
+.overlay.open{transform:translateY(0);visibility:visible}
+@media(min-width:768px){.overlay{padding:7rem 3rem 3rem}}
+.ovl-links{list-style:none;margin-bottom:3rem}
+.ovl-links li{border-bottom:1px solid rgba(0,0,0,.1)}
+.ovl-links a{display:block;font-family:var(--fd);font-style:italic;font-weight:300;font-size:clamp(2rem,8vw,5.5rem);color:var(--black);padding:.3rem 0;line-height:1.15;transition:padding-left .3s}
+.ovl-links a:hover{padding-left:.6rem}
+.ovl-info{display:flex;flex-wrap:wrap;gap:1.5rem 3rem}
+.ovl-c{font-size:.56rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(0,0,0,.4)}
+.ovl-c a,.ovl-c span{display:block;margin-top:.3rem;font-size:.78rem;color:var(--black);letter-spacing:.03em}
+
+/* ============ HERO ============ */
+.hero{
+  position:relative;height:100svh;min-height:600px;
+  display:flex;flex-direction:column;justify-content:center;
+  align-items:center;text-align:center;
+  overflow:hidden;padding:2rem;
+}
+
+/* Animasyonlu arka plan grid */
+.hero-bg{position:absolute;inset:0;z-index:0;background:var(--black);overflow:hidden}
+.hero-bg-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(200,255,0,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(200,255,0,.04) 1px,transparent 1px);
+  background-size:60px 60px;
+  animation:gridPulse 4s ease-in-out infinite;
+}
+@keyframes gridPulse{
+  0%,100%{opacity:.4}
+  50%{opacity:1}
+}
+.hero-bg::after{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(6,6,6,0) 0%,rgba(6,6,6,.95) 100%);
+}
+
+/* Hero içerik */
+.hero-content{position:relative;z-index:2}
+.hero-question{
+  font-family:var(--fd);font-style:italic;font-weight:300;
+  font-size:clamp(1.2rem,4vw,3rem);
+  color:var(--dim);margin-bottom:1.5rem;
+  opacity:0;
+}
+.hero-question.go{animation:fadeUp .8s .2s ease forwards}
+
+.hero-main{
+  font-family:var(--fb);
+  font-size:clamp(1.8rem,6vw,5rem);
+  line-height:1;letter-spacing:.02em;
+  margin-bottom:3rem;
+  min-height:1.2em;
+  opacity:0;
+}
+.hero-main.go{animation:fadeUp .8s .5s ease forwards}
+.hero-main .ac{color:var(--accent)}
+
+/* CSS animasyonlu sahne — morphing text */
+.morphing{
+  display:inline-block;
+  position:relative;
+  overflow:hidden;
+}
+.morph-item{
+  display:block;
+  position:absolute;top:0;left:0;right:0;
+  opacity:0;transform:translateY(20px);
+  transition:opacity .6s ease,transform .6s ease;
+  white-space:nowrap;
+}
+.morph-item.active{opacity:1;transform:translateY(0);position:relative}
+
+/* Alt çizgi */
+.hero-line{
+  width:0;height:1px;
+  background:linear-gradient(to right,transparent,var(--accent),transparent);
+  margin:0 auto 2rem;
+  opacity:0;
+}
+.hero-line.go{animation:lineGrow .8s .8s ease forwards,fadeUp .8s .8s ease forwards}
+@keyframes lineGrow{to{width:min(300px,70vw)}}
+
+.hero-desc{
+  font-size:clamp(.8rem,2vw,1rem);line-height:1.85;
+  color:var(--dim);max-width:480px;margin:0 auto 2rem;
+  opacity:0;
+}
+.hero-desc.go{animation:fadeUp .8s 1s ease forwards}
+
+.hero-cta{
+  display:inline-flex;align-items:center;gap:.6rem;
+  background:var(--accent);color:var(--black);
+  font-family:var(--fu);font-size:.62rem;font-weight:700;
+  letter-spacing:.22em;text-transform:uppercase;
+  padding:.9rem 2rem;
+  transition:background .25s,transform .2s;
+  opacity:0;
+}
+.hero-cta.go{animation:fadeUp .8s 1.2s ease forwards}
+.hero-cta:hover{background:var(--white);transform:scale(1.02)}
+
+/* ============ TICKER ============ */
+.ticker{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:.72rem 0;overflow:hidden;white-space:nowrap}
+.ticker-inner{display:inline-flex;gap:2rem;animation:tick 30s linear infinite}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.ti{font-size:.54rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--gray);display:flex;align-items:center;gap:.9rem;flex-shrink:0}
+.ti::after{content:"✦";color:var(--accent);font-size:.34rem}
+
+/* ============ SECTIONS ============ */
+section{padding:4.5rem 1.5rem}
+@media(min-width:768px){section{padding:7rem 3rem}}
+.sep{border-top:1px solid var(--border)}
+.s-lbl{font-size:.52rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:.6rem;margin-bottom:2.5rem}
+.s-lbl::before{content:"";display:inline-block;width:20px;height:1px;background:var(--accent)}
+
+/* ============ KANCA BAŞLIKLAR ============ */
+.hooks{border-top:1px solid var(--border)}
+.hook-item{
+  padding:3rem 0;border-bottom:1px solid var(--border);
+  display:grid;gap:1.5rem;
+  opacity:0;transform:translateX(-30px);
+  transition:opacity .9s ease,transform .9s ease;
+}
+.hook-item.in{opacity:1;transform:none}
+@media(min-width:768px){.hook-item{grid-template-columns:1fr 1fr;gap:4rem;align-items:center}}
+.hook-q{
+  font-family:var(--fd);font-style:italic;font-weight:300;
+  font-size:clamp(1.4rem,3.5vw,2.8rem);line-height:1.2;
+  color:var(--white);
+}
+.hook-q em{color:var(--accent);font-style:normal}
+.hook-body{}
+.hook-service{
+  font-family:var(--fb);font-size:clamp(1rem,2.5vw,1.8rem);
+  color:var(--accent);letter-spacing:.05em;margin-bottom:.75rem;
+}
+.hook-desc{font-size:.82rem;line-height:1.85;color:var(--dim);margin-bottom:1rem}
+.hook-logos{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center}
+.logo-pill{
+  display:flex;align-items:center;gap:.4rem;
+  font-size:.55rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--gray);border:1px solid var(--border);
+  padding:.3rem .7rem;border-radius:2px;
+  transition:border-color .3s,color .3s;
+}
+.logo-pill:hover{border-color:var(--accent);color:var(--accent)}
+.logo-pill svg{width:14px;height:14px;flex-shrink:0}
+
+/* ============ ABOUT ============ */
+.about-hl{
+  font-family:var(--fb);
+  font-size:clamp(2.5rem,9vw,8rem);
+  line-height:.9;letter-spacing:.01em;margin-bottom:2.5rem;
+  word-break:keep-all;
+}
+.about-hl .ac{color:var(--accent)}
+.about-cols{display:grid;gap:2.5rem}
+@media(min-width:768px){.about-cols{grid-template-columns:1fr 1fr;gap:5rem;align-items:start}}
+.ap{font-size:.86rem;line-height:1.95;color:var(--dim);margin-bottom:1.4rem}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+.stat{border-top:1px solid var(--border);padding-top:.9rem}
+.sn{font-family:var(--fb);font-size:2.6rem;line-height:1}
+.sn em{color:var(--accent);font-style:normal}
+.sl{font-size:.54rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-top:.3rem}
+
+/* ============ ECOSYSTEM ============ */
+.eco-hl{
+  font-family:var(--fb);
+  font-size:clamp(2.2rem,8vw,7rem);
+  line-height:.9;letter-spacing:.01em;margin-bottom:2.5rem;
+  word-break:keep-all;
+}
+.eco-hl .ac{color:var(--accent)}
+.egrid{display:grid;grid-template-columns:1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:2rem}
+@media(min-width:480px){.egrid{grid-template-columns:1fr 1fr}}
+@media(min-width:860px){.egrid{grid-template-columns:1fr 1fr 1fr}}
+.ecard{background:var(--black);padding:1.4rem 1.2rem;transition:background .3s}
+.ecard:hover{background:#0e0e0e}
+.ecard-logo{width:32px;height:32px;margin-bottom:.8rem;object-fit:contain}
+.ecard-lbl{font-size:.48rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem}
+.ecard-title{font-family:var(--fu);font-size:.82rem;font-weight:700;color:var(--white);margin-bottom:.4rem;line-height:1.25}
+.ecard-desc{font-size:.7rem;line-height:1.7;color:var(--gray)}
+.mpills{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:1.5rem}
+.mpill{font-size:.52rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);border:1px solid var(--border);padding:.3rem .7rem;transition:border-color .3s,color .3s}
+.mpill:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ============ SERVICES LIST ============ */
+.svc-intro{font-family:var(--fd);font-style:italic;font-weight:300;font-size:clamp(1.1rem,3vw,2.2rem);line-height:1.4;color:var(--dim);margin-bottom:2.5rem;max-width:600px}
+.svc{display:flex;justify-content:space-between;align-items:center;padding:1.2rem 0;border-bottom:1px solid var(--border);position:relative;overflow:hidden;transition:padding-left .45s cubic-bezier(.77,0,.175,1)}
+.svc::before{content:"";position:absolute;inset:0;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .55s cubic-bezier(.77,0,.175,1);z-index:0}
+.svc:hover{padding-left:.5rem}
+.svc:hover::before{transform:scaleX(1)}
+.svc:hover .svc-n,.svc:hover .svc-num,.svc:hover .svc-arr{color:var(--black)}
+.svc-l{display:flex;align-items:center;gap:1.5rem;position:relative;z-index:1}
+.svc-num{font-size:.52rem;font-weight:700;letter-spacing:.2em;color:var(--gray);min-width:2rem;transition:color .35s}
+.svc-n{font-family:var(--fd);font-style:italic;font-weight:300;font-size:clamp(1rem,2.5vw,1.9rem);transition:color .35s;white-space:nowrap}
+.svc-arr{font-size:.9rem;color:var(--gray);transition:color .35s,transform .3s;position:relative;z-index:1}
+.svc:hover .svc-arr{transform:translate(3px,-3px)}
+
+/* ============ REFERENCES ============ */
+.ref-sub{font-family:var(--fd);font-style:italic;font-weight:300;font-size:clamp(1rem,3vw,2rem);color:var(--dim);max-width:500px;line-height:1.4;margin-bottom:3rem}
+.rlist{list-style:none}
+.ritem{display:flex;align-items:baseline;justify-content:space-between;padding:1.1rem 0;border-bottom:1px solid var(--border);position:relative;overflow:hidden;transition:padding-left .4s cubic-bezier(.77,0,.175,1)}
+.ritem::before{content:"";position:absolute;inset:0;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.77,0,.175,1);z-index:0}
+.ritem:hover{padding-left:.5rem}
+.ritem:hover::before{transform:scaleX(1)}
+.ritem:hover .rname,.ritem:hover .rtag,.ritem:hover .rarr{color:var(--black)}
+.rleft{display:flex;align-items:baseline;gap:.85rem;position:relative;z-index:1;flex:1;min-width:0}
+.rname{font-family:var(--fb);font-size:clamp(1.3rem,4vw,3rem);line-height:1;letter-spacing:.02em;color:var(--white);transition:color .35s;white-space:nowrap}
+.rtag{font-size:.5rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gray);transition:color .35s;display:none}
+@media(min-width:480px){.rtag{display:block}}
+.rarr{font-size:.85rem;color:var(--gray);transition:color .35s,transform .3s;position:relative;z-index:1;flex-shrink:0;margin-left:.75rem}
+.ritem:hover .rarr{transform:translate(3px,-3px)}
+
+/* ============ PARTNERS ============ */
+.ptrack{display:inline-flex;gap:.85rem;white-space:nowrap;animation:tick 22s linear infinite;margin-top:1.75rem}
+.pbadge{flex-shrink:0;font-size:.52rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gray);border:1px solid var(--border);padding:.4rem .9rem;transition:border-color .3s,color .3s}
+.pbadge:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ============ İLETİŞİM ============ */
+.contact-grid{display:grid;gap:2rem}
+@media(min-width:768px){.contact-grid{grid-template-columns:1fr 1fr;gap:4rem}}
+.contact-hl{font-family:var(--fb);font-size:clamp(2.5rem,8vw,7rem);line-height:.9;letter-spacing:.01em;margin-bottom:2rem;word-break:keep-all}
+.contact-hl .ac{color:var(--accent)}
+.contact-info{display:flex;flex-direction:column;gap:1.25rem;margin-bottom:2rem}
+.c-item{font-size:.56rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--gray)}
+.c-item a,.c-item span{display:block;margin-top:.3rem;font-size:.9rem;color:var(--white);letter-spacing:.03em;font-weight:400;transition:color .3s}
+.c-item a:hover{color:var(--accent)}
+.c-btns{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1rem}
+.c-btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:var(--accent);color:var(--black);
+  font-family:var(--fu);font-size:.6rem;font-weight:700;
+  letter-spacing:.18em;text-transform:uppercase;
+  padding:.85rem 1.5rem;
+  transition:background .25s,transform .2s;
+}
+.c-btn:hover{background:var(--white);transform:scale(1.02)}
+.c-btn.outline{background:transparent;color:var(--white);border:1px solid var(--border)}
+.c-btn.outline:hover{background:var(--accent);color:var(--black);border-color:var(--accent)}
+
+/* Map embed */
+.map-wrap{width:100%;aspect-ratio:4/3;border:1px solid var(--border);overflow:hidden}
+@media(min-width:768px){.map-wrap{aspect-ratio:16/9}}
+.map-wrap iframe{width:100%;height:100%;border:none;filter:grayscale(1) invert(1) contrast(.8)}
+
+/* ============ CTA ============ */
+.cta-sec{border-top:1px solid var(--border);min-height:55vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;overflow:hidden;padding:5rem 1.5rem}
+@media(min-width:768px){.cta-sec{padding:7rem 3rem}}
+.cta-bg{position:absolute;font-family:var(--fb);font-size:clamp(8rem,28vw,28rem);color:rgba(255,255,255,.015);letter-spacing:.05em;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;white-space:nowrap;user-select:none;line-height:1}
+.cta-h{font-family:var(--fb);font-size:clamp(2.5rem,9vw,9rem);line-height:.9;letter-spacing:.01em;margin-bottom:2.5rem;position:relative;z-index:1;word-break:keep-all}
+.cta-h .ac{color:var(--accent)}
+.cta-btn{display:inline-flex;align-items:center;gap:.6rem;background:var(--accent);color:var(--black);font-family:var(--fu);font-size:.62rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;padding:1rem 2.5rem;position:relative;z-index:1;transition:background .25s,transform .2s}
+.cta-btn:hover{background:var(--white);transform:scale(1.02)}
+.cta-sub{margin-top:1.2rem;font-size:.68rem;color:var(--gray);position:relative;z-index:1}
+.cta-sub a{color:var(--white);border-bottom:1px solid rgba(255,255,255,.15);padding-bottom:1px;transition:border-color .3s}
+.cta-sub a:hover{border-color:var(--accent)}
+
+/* ============ FOOTER ============ */
+footer{border-top:1px solid var(--border);padding:1.8rem 1.5rem;display:flex;flex-direction:column;gap:.85rem}
+@media(min-width:768px){footer{flex-direction:row;justify-content:space-between;align-items:center;padding:1.8rem 3rem}}
+.f-logo{font-family:var(--fu);font-size:.78rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase}
+.f-copy{font-size:.52rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray)}
+.f-links{display:flex;gap:1.4rem;flex-wrap:wrap}
+.f-links a{font-size:.52rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);transition:color .3s}
+.f-links a:hover{color:var(--accent)}
+
+/* ============ SCROLL REVEAL ============ */
+.rv{opacity:0;transform:translateY(35px);transition:opacity 1s ease,transform 1s ease}
+.rv.in{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}
+</style>
+</head>
+<body>
+
+<!-- ====== INTRO ====== -->
+<div id="intro">
+  <div class="stars" id="stars"></div>
+  <div class="laser-beam"></div>
+  <div class="laser-impact"></div>
+  <div class="intro-text">
+    <div class="intro-brand">
+      <span>W</span><span>İ</span><span>X</span>
+      <span>M</span><span>E</span><span>D</span><span>Y</span><span>A</span>
+    </div>
+    <div class="intro-line"></div>
+    <div class="intro-sub">Dijitalin Her Yerindeyiz</div>
+  </div>
+</div>
+
+<!-- ====== CURSOR ====== -->
+<div class="cur" id="cur"></div>
+<div class="cur-r" id="curR"></div>
+
+<!-- ====== OVERLAY MENU ====== -->
+<div class="overlay" id="overlay">
+  <ul class="ovl-links">
+    <li><a href="#hakkimizda" onclick="closeMenu()">Hakkımızda</a></li>
+    <li><a href="#hizmetler"  onclick="closeMenu()">Hizmetler</a></li>
+    <li><a href="#google"     onclick="closeMenu()">Google Ekosistemi</a></li>
+    <li><a href="#meta"       onclick="closeMenu()">Meta Ekosistemi</a></li>
+    <li><a href="#eticaret"   onclick="closeMenu()">E-Ticaret</a></li>
+    <li><a href="#referanslar"onclick="closeMenu()">Referanslar</a></li>
+    <li><a href="#iletisim"   onclick="closeMenu()">İletişim</a></li>
+  </ul>
+  <div class="ovl-info">
+    <div class="ovl-c">E-posta<a href="mailto:medyawix@gmail.com">medyawix@gmail.com</a></div>
+    <div class="ovl-c">Telefon<a href="tel:+905325751971">+90 532 575 19 71</a></div>
+    <div class="ovl-c">Konum<span>İzmir, Türkiye</span></div>
+  </div>
+</div>
+
+<!-- ====== NAV ====== -->
+<nav class="nav">
+  <a href="#" class="nav-logo">WixMedya</a>
+  <button class="nav-btn" id="navBtn" onclick="toggleMenu()">
+    <div class="nav-lines"><span></span><span></span></div>
+    <span id="navLbl">Menü</span>
+  </button>
+</nav>
+
+<!-- ====== HERO ====== -->
+<section class="hero" id="top">
+  <div class="hero-bg">
+    <div class="hero-bg-grid"></div>
+  </div>
+  <div class="hero-content">
+    <p class="hero-question" id="heroQ">Ne istiyorsunuz?</p>
+    <h1 class="hero-main" id="heroMain">
+      <span id="morphText" class="ac">Marka mı?</span>
+    </h1>
+    <div class="hero-line" id="heroLine"></div>
+    <p class="hero-desc" id="heroDesc">
+      Google'dan Meta'ya, e-ticaretten marka kimliğine —
+      dijital dünyanın her ekosisteminde sizin için çalışıyoruz.
+    </p>
+    <a href="#iletisim" class="hero-cta" id="heroCta">Projeyi Konuşalım ↗</a>
+  </div>
+</section>
+
+<!-- ====== TICKER ====== -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="ti">Google Ads</span><span class="ti">Meta Ads</span>
+    <span class="ti">ROAS</span><span class="ti">E-Ticaret</span>
+    <span class="ti">Marka Kimliği</span><span class="ti">Tag Manager</span>
+    <span class="ti">Analytics 4</span><span class="ti">Pazaryeri</span>
+    <span class="ti">Otomasyon</span><span class="ti">SEO & SEM</span>
+    <span class="ti">Conversions API</span><span class="ti">Web Tasarım</span>
+    <span class="ti">Google Ads</span><span class="ti">Meta Ads</span>
+    <span class="ti">ROAS</span><span class="ti">E-Ticaret</span>
+    <span class="ti">Marka Kimliği</span><span class="ti">Tag Manager</span>
+    <span class="ti">Analytics 4</span><span class="ti">Pazaryeri</span>
+    <span class="ti">Otomasyon</span><span class="ti">SEO & SEM</span>
+    <span class="ti">Conversions API</span><span class="ti">Web Tasarım</span>
+  </div>
+</div>
+
+<!-- ====== HAKKIMIZDA ====== -->
+<section class="sep rv" id="hakkimizda">
+  <div class="s-lbl">Hakkımızda</div>
+  <h2 class="about-hl">DİJİTALDE<br>TAM <span class="ac">HAKİMİYET.</span></h2>
+  <div class="about-cols">
+    <div>
+      <p class="ap">WixMedya olarak Google'ın tüm reklam ekosisteminden Meta'nın her kampanya aracına, e-ticaret platformlarından yazılım otomasyonuna kadar dijital dünyanın her köşesini masaya yatırıyoruz.</p>
+      <p class="ap">Vestel gibi Türkiye'nin dev markalarıyla çalışırken, aynı anda sıfırdan büyüttüğümüz onlarca markayı dijital dünyada zirveye taşıyoruz. İzmir'den yönetiyoruz, dünyaya çalışıyoruz.</p>
+    </div>
+    <div class="stats">
+      <div class="stat rv d1"><div class="sn">50<em>+</em></div><div class="sl">Tamamlanan Proje</div></div>
+      <div class="stat rv d1"><div class="sn">9<em>+</em></div><div class="sl">Farklı Sektör</div></div>
+      <div class="stat rv d2"><div class="sn">12<em>+</em></div><div class="sl">Pazaryeri</div></div>
+      <div class="stat rv d2"><div class="sn">∞</div><div class="sl">Hizmet Kapsamı</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== KANCA BAŞLIKLAR ====== -->
+<section class="hooks rv" id="hizmetler">
+  <div class="s-lbl">Neden WixMedya?</div>
+
+  <div class="hook-item rv">
+    <div class="hook-q">"Rakipleriniz sizi görüyor.<br><em>Müşterileriniz görmüyor."</em></div>
+    <div class="hook-body">
+      <div class="hook-service">SEO & Görünürlük</div>
+      <p class="hook-desc">Arama motorlarında üst sıralara çıkın. Teknik SEO, içerik stratejisi ve Core Web Vitals optimizasyonuyla organik büyüyün.</p>
+      <div class="hook-logos">
+        <span class="logo-pill">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+          Search Console
+        </span>
+        <span class="logo-pill">Core Web Vitals</span>
+        <span class="logo-pill">Schema Markup</span>
+        <span class="logo-pill">Ahrefs</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hook-item rv">
+    <div class="hook-q">"Reklam bütçeniz gidiyor.<br><em>ROAS'ınız nerede?"</em></div>
+    <div class="hook-body">
+      <div class="hook-service">Google & Meta Reklam Yönetimi</div>
+      <p class="hook-desc">Her kuruşun nereden döndüğünü biliyoruz. Target ROAS, Performance Max, Advantage+ — doğru kampanya, doğru hedef.</p>
+      <div class="hook-logos">
+        <span class="logo-pill">Google Ads</span>
+        <span class="logo-pill">Meta Ads</span>
+        <span class="logo-pill">ROAS</span>
+        <span class="logo-pill">CPA</span>
+        <span class="logo-pill">Performance Max</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hook-item rv">
+    <div class="hook-q">"Siteniz var.<br><em>Ama satıyor mu?"</em></div>
+    <div class="hook-body">
+      <div class="hook-service">E-Ticaret & Pazaryeri</div>
+      <p class="hook-desc">Ticimax'tan Shopify'a, Trendyol'dan Amazon'a — her platformda mağaza kurar, entegre eder ve büyütürüz.</p>
+      <div class="hook-logos">
+        <span class="logo-pill">Ticimax</span>
+        <span class="logo-pill">IKAS</span>
+        <span class="logo-pill">Trendyol</span>
+        <span class="logo-pill">Hepsiburada</span>
+        <span class="logo-pill">Shopify</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hook-item rv">
+    <div class="hook-q">"Markanız var.<br><em>Ama akılda kalıyor mu?"</em></div>
+    <div class="hook-body">
+      <div class="hook-service">Marka Kimliği & Tasarım</div>
+      <p class="hook-desc">Sıfırdan marka inşa ediyoruz. Logo, kurumsal kimlik, sosyal medya görsel sistemi — her detay bir strateji.</p>
+      <div class="hook-logos">
+        <span class="logo-pill">Logo Tasarım</span>
+        <span class="logo-pill">Kurumsal Kimlik</span>
+        <span class="logo-pill">Sosyal Medya</span>
+        <span class="logo-pill">Web Tasarım</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hook-item rv">
+    <div class="hook-q">"Her şey birbirine bağlı.<br><em>Sisteminiz bağlı mı?"</em></div>
+    <div class="hook-body">
+      <div class="hook-service">Otomasyon & Entegrasyon</div>
+      <p class="hook-desc">CRM'den e-posta otomasyonuna, webhook'tan API'ye — iş akışlarınızı otomatize eder, zamanınızı geri kazandırırız.</p>
+      <div class="hook-logos">
+        <span class="logo-pill">Zapier</span>
+        <span class="logo-pill">Make</span>
+        <span class="logo-pill">n8n</span>
+        <span class="logo-pill">Klaviyo</span>
+        <span class="logo-pill">REST API</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== HİZMETLER LİSTESİ ====== -->
+<section class="sep rv">
+  <div class="s-lbl">Tüm Hizmetler</div>
+  <p class="svc-intro">Bir dijital ajansın yapabileceği her şeyi yapıyoruz — ve biraz daha fazlasını.</p>
+  <div>
+    <div class="svc"><div class="svc-l"><span class="svc-num">01</span><span class="svc-n">Marka Kimliği & Kurumsal Tasarım</span></div><span class="svc-arr">↗</span></div>
+    <div class="svc"><div class="svc-l"><span class="svc-num">02</span><span class="svc-n">Web Tasarım & Geliştirme</span></div><span class="svc-arr">↗</span></div>
+    <div class="svc"><div class="svc-l"><span class="svc-num">03</span><span class="svc-n">E-Ticaret Kurulum & Büyüme</span></div><span class="svc-arr">↗</span></div>
+    <div class="svc"><div class="svc-l"><span class="svc-num">04</span><span class="svc-n">Google Reklam Yönetimi</span></div><span class="svc-arr">↗</span></div>
+    <div class="svc"><div class="svc-l"><span class="svc-num">05</span><span class="svc-n">Meta Reklam Yönetimi</span></div><span class="svc-arr">↗</span></div>
+    <div class="svc"><div class="svc-l"><span class="svc-num">06</span><span class="svc-n">Sosyal Medya & İçerik Yönetimi</span></div><span class="svc-arr">↗</span></div>
+    <div class="svc"><div class="svc-l"><span class="svc-num">07</span><span class="svc-n">Web & İş Akışı Otomasyonu</span></div><span class="svc-arr">↗</span></div>
+    <div class="svc"><div class="svc-l"><span class="svc-num">08</span><span class="svc-n">Pazaryeri Kurulum & Yönetimi</span></div><span class="svc-arr">↗</span></div>
+    <div class="svc"><div class="svc-l"><span class="svc-num">09</span><span class="svc-n">SEO & Teknik Performans</span></div><span class="svc-arr">↗</span></div>
+    <div class="svc"><div class="svc-l"><span class="svc-num">10</span><span class="svc-n">Veri Analizi & Raporlama</span></div><span class="svc-arr">↗</span></div>
+  </div>
+</section>
+
+<!-- ====== GOOGLE EKOSİSTEMİ ====== -->
+<section class="sep rv" id="google">
+  <div class="s-lbl">Google Ekosistemi</div>
+  <h2 class="eco-hl">GOOGLE'IN<br>TÜM <span class="ac">GÜCÜ.</span></h2>
+  <div class="egrid">
+    <div class="ecard">
+      <svg class="ecard-logo" viewBox="0 0 24 24"><rect width="24" height="24" rx="4" fill="#4285F4"/><path d="M12 11v2.5h3.5c-.5 1.5-1.8 2.5-3.5 2.5-2.2 0-4-1.8-4-4s1.8-4 4-4c1 0 1.9.4 2.6 1l1.8-1.8C15.1 6.1 13.6 5.5 12 5.5 8.4 5.5 5.5 8.4 5.5 12s2.9 6.5 6.5 6.5c3.8 0 6.3-2.7 6.3-6.4 0-.4 0-.7-.1-1.1H12z" fill="white"/></svg>
+      <div class="ecard-lbl">Kampanya Türleri</div>
+      <div class="ecard-title">Google Ads</div>
+      <div class="ecard-desc">Search, Display, Shopping, Performance Max, Demand Gen, YouTube Ads, App Campaigns, Discovery Ads.</div>
+    </div>
+    <div class="ecard">
+      <svg class="ecard-logo" viewBox="0 0 24 24"><rect width="24" height="24" rx="4" fill="#F9AB00"/><path d="M12 4C7.6 4 4 7.6 4 12s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm0 14c-3.3 0-6-2.7-6-6s2.7-6 6-6 6 2.7 6 6-2.7 6-6 6z" fill="white"/><circle cx="12" cy="12" r="2.5" fill="white"/></svg>
+      <div class="ecard-lbl">Analitik</div>
+      <div class="ecard-title">Google Analytics 4</div>
+      <div class="ecard-desc">Event tracking, Funnel Analysis, Cohort Analysis, Predictive Audiences, Data-Driven Attribution, BigQuery.</div>
+    </div>
+    <div class="ecard">
+      <svg class="ecard-logo" viewBox="0 0 24 24"><rect width="24" height="24" rx="4" fill="#4285F4"/><path d="M4 8h16v2H4zm0 4h16v2H4zm0 4h10v2H4z" fill="white"/><circle cx="18" cy="16" r="3" fill="#34A853"/></svg>
+      <div class="ecard-lbl">Etiket Yönetimi</div>
+      <div class="ecard-title">Google Tag Manager</div>
+      <div class="ecard-desc">Server-side tagging, Consent Mode v2, Datalayer implementasyonu, Enhanced Conversions, Cross-domain tracking.</div>
+    </div>
+    <div class="ecard">
+      <svg class="ecard-logo" viewBox="0 0 24 24"><rect width="24" height="24" rx="4" fill="#34A853"/><path d="M12 3l7 4v10l-7 4-7-4V7l7-4zm0 2.3L6.5 8.5v7l5.5 3.2 5.5-3.2v-7L12 5.3z" fill="white"/></svg>
+      <div class="ecard-lbl">Ürün & Alışveriş</div>
+      <div class="ecard-title">Merchant Center</div>
+      <div class="ecard-desc">Feed optimizasyonu, Supplemental feeds, Free Listings, Local Inventory Ads, Merchant Promotions, Product ratings.</div>
+    </div>
+    <div class="ecard">
+      <svg class="ecard-logo" viewBox="0 0 24 24"><rect width="24" height="24" rx="4" fill="#EA4335"/><path d="M12 4C7.6 4 4 7.6 4 12h2c0-3.3 2.7-6 6-6V4zm-1 4v5l4 2.5-.8 1.3L9 13.5V8h2z" fill="white"/></svg>
+      <div class="ecard-lbl">Görünürlük</div>
+      <div class="ecard-title">Search Console</div>
+      <div class="ecard-desc">CTR optimizasyonu, Index Coverage, Core Web Vitals LCP/INP/CLS, Rich Results, Schema Markup.</div>
+    </div>
+    <div class="ecard">
+      <svg class="ecard-logo" viewBox="0 0 24 24"><rect width="24" height="24" rx="4" fill="#4285F4"/><path d="M5 17l4-6 3 4 2-3 5 5H5z" fill="white"/><circle cx="8" cy="8" r="2" fill="white"/></svg>
+      <div class="ecard-lbl">Raporlama</div>
+      <div class="ecard-title">Looker Studio</div>
+      <div class="ecard-desc">Özel dashboard kurulumu, tüm kanalları tek ekranda birleştiren veri görselleştirme panelleri.</div>
+    </div>
+  </div>
+  <div class="mpills">
+    <span class="mpill">CTR</span><span class="mpill">CVR</span><span class="mpill">ROAS</span>
+    <span class="mpill">CPA</span><span class="mpill">CPC</span><span class="mpill">CPM</span>
+    <span class="mpill">CPV</span><span class="mpill">CPL</span><span class="mpill">ROI</span>
+    <span class="mpill">LTV</span><span class="mpill">CAC</span><span class="mpill">Quality Score</span>
+    <span class="mpill">Ad Rank</span><span class="mpill">Impression Share</span>
+    <span class="mpill">tROAS</span><span class="mpill">tCPA</span>
+    <span class="mpill">Auction Insights</span><span class="mpill">Data-Driven Attribution</span>
+  </div>
+</section>
+
+<!-- ====== META EKOSİSTEMİ ====== -->
+<section class="sep rv" id="meta">
+  <div class="s-lbl">Meta Ekosistemi</div>
+  <h2 class="eco-hl">META'NIN<br>TÜM <span class="ac">GÜCÜ.</span></h2>
+  <div class="egrid">
+    <div class="ecard">
+      <svg class="ecard-logo" viewBox="0 0 24 24"><rect width="24" height="24" rx="4" fill="#0081FB"/><path d="M12 6c-2.5 0-4.5 2-5.5 5 .8-1 1.7-1.5 2.5-1.5 1.5 0 2.3 1.5 3 3 .8 1.8 1.7 3.5 3.5 3.5 1.5 0 3-1.5 4-4C18.5 8 15.5 6 12 6z" fill="white"/></svg>
+      <div class="ecard-lbl">Kampanyalar</div>
+      <div class="ecard-title">Meta Ads Manager</div>
+      <div class="ecard-desc">Awareness, Traffic, Engagement, Leads, Sales — Image, Video, Carousel, Collection, Reels, Stories formatları.</div>
+    </div>
+    <div class="ecard">
+      <svg class="ecard-logo" viewBox="0 0 24 24"><rect width="24" height="24" rx="4" fill="#0081FB"/><path d="M8 12c0-2.2 1.8-4 4-4s4 1.8 4 4-1.8 4-4 4-4-1.8-4-4zm-4 0c0 4.4 3.6 8 8 8s8-3.6 8-8-3.6-8-8-8-8 3.6-8 8z" fill="white"/></svg>
+      <div class="ecard-lbl">Takip & Ölçüm</div>
+      <div class="ecard-title">Meta Pixel & CAPI</div>
+      <div class="ecard-desc">Pixel kurulumu, standart & custom events, EMQ skoru, Conversions API sunucu entegrasyonu, deduplication.</div>
+    </div>
+    <div class="ecard">
+      <svg class="ecard-logo" viewBox="0 0 24 24"><rect width="24" height="24" rx="4" fill="#E4405F"/><rect x="7" y="7" width="10" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><circle cx="12" cy="12" r="2" fill="white"/><circle cx="15.5" cy="8.5" r=".75" fill="white"/></svg>
+      <div class="ecard-lbl">Instagram</div>
+      <div class="ecard-title">Instagram Ads & Shopping</div>
+      <div class="ecard-desc">Instagram Stories, Reels, Feed reklamları, Instagram Shopping entegrasyonu, Commerce Manager kurulumu.</div>
+    </div>
+    <div class="ecard">
+      <svg class="ecard-logo" viewBox="0 0 24 24"><rect width="24" height="24" rx="4" fill="#25D366"/><path d="M12 4C7.6 4 4 7.6 4 12c0 1.5.4 2.9 1.1 4.1L4 20l4.1-1.1C9.3 19.6 10.6 20 12 20c4.4 0 8-3.6 8-8s-3.6-8-8-8zm3.5 11.5c-.2.5-1 1-1.4 1-.4.1-.8.1-2.5-.5-2.1-.7-3.4-2.8-3.5-2.9-.1-.2-.9-1.2-.9-2.3 0-1.1.6-1.6.8-1.9.2-.2.4-.3.6-.3h.4c.2 0 .3.1.5.5l.6 1.5c.1.2 0 .4-.1.5l-.4.5c-.1.1-.2.2-.1.4.2.3.7 1 1.4 1.6.9.8 1.6 1 1.9 1.1.2.1.4 0 .5-.1l.5-.6c.1-.2.3-.2.5-.1l1.5.7c.2.1.4.2.4.4v.5z" fill="white"/></svg>
+      <div class="ecard-lbl">Mesajlaşma</div>
+      <div class="ecard-title">WhatsApp Business API</div>
+      <div class="ecard-desc">WhatsApp Business API entegrasyonu, müşteri iletişim otomasyonu, catalog entegrasyonu.</div>
+    </div>
+    <div class="ecard">
+      <svg class="ecard-logo" viewBox="0 0 24 24"><rect width="24" height="24" rx="4" fill="#0081FB"/><path d="M4 6h16v2H4zm0 4h12v2H4zm0 4h8v2H4z" fill="white"/></svg>
+      <div class="ecard-lbl">Katalog</div>
+      <div class="ecard-title">Catalog & Dynamic Ads</div>
+      <div class="ecard-desc">Ürün kataloğu yönetimi, Dynamic Ads, Advantage+ Catalog Ads, retargeting, ürün feed optimizasyonu.</div>
+    </div>
+    <div class="ecard">
+      <svg class="ecard-logo" viewBox="0 0 24 24"><rect width="24" height="24" rx="4" fill="#0081FB"/><path d="M12 4l8 4v8l-8 4-8-4V8l8-4zm0 2.2L5.5 9.5v5l6.5 3.3 6.5-3.3v-5L12 6.2z" fill="white"/></svg>
+      <div class="ecard-lbl">Yönetim</div>
+      <div class="ecard-title">Meta Business Suite</div>
+      <div class="ecard-desc">Business Manager yapılandırması, çoklu hesap yönetimi, CBO, ABO, A/B test, attribution window optimizasyonu.</div>
+    </div>
+  </div>
+  <div class="mpills">
+    <span class="mpill">ROAS</span><span class="mpill">CPA</span><span class="mpill">CPM</span>
+    <span class="mpill">CPC</span><span class="mpill">CTR</span><span class="mpill">Frequency</span>
+    <span class="mpill">EMQ Score</span><span class="mpill">Add to Cart Rate</span>
+    <span class="mpill">Purchase Rate</span><span class="mpill">Cost per Lead</span>
+    <span class="mpill">Attribution Window</span><span class="mpill">CBO</span><span class="mpill">ABO</span>
+  </div>
+</section>
+
+<!-- ====== E-TİCARET ====== -->
+<section class="sep rv" id="eticaret">
+  <div class="s-lbl">E-Ticaret & Otomasyon</div>
+  <h2 class="eco-hl">HER PLATFORM,<br><span class="ac">HER PAZAR.</span></h2>
+  <div class="egrid">
+    <div class="ecard">
+      <div class="ecard-lbl">Platformlar</div>
+      <div class="ecard-title">Ticimax · IKAS · IdeaSoft</div>
+      <div class="ecard-desc">T-Soft, AkinSoft, Shopify, WooCommerce, Magento, OpenCart — kurulum, entegrasyon ve büyüme yönetimi.</div>
+    </div>
+    <div class="ecard">
+      <div class="ecard-lbl">Pazaryeri</div>
+      <div class="ecard-title">Trendyol · Hepsiburada · Amazon</div>
+      <div class="ecard-desc">N11, ÇiçekSepeti, Pttavm — stok, sipariş, fiyat optimizasyonu, feed yönetimi, mağaza kurulumu.</div>
+    </div>
+    <div class="ecard">
+      <div class="ecard-lbl">Metrikler</div>
+      <div class="ecard-title">AOV · CLV · Churn Rate</div>
+      <div class="ecard-desc">Repeat Purchase, Cart Abandonment, Checkout Rate, Return Rate, Net Revenue, Gross Margin, Sell-through Rate.</div>
+    </div>
+    <div class="ecard">
+      <div class="ecard-lbl">Teknik SEO</div>
+      <div class="ecard-title">Core Web Vitals & Schema</div>
+      <div class="ecard-desc">Crawl bütçesi, canonical tags, hreflang, Schema Markup, LCP/INP/CLS, Screaming Frog, Ahrefs, SEMrush.</div>
+    </div>
+    <div class="ecard">
+      <div class="ecard-lbl">Otomasyon</div>
+      <div class="ecard-title">Zapier · Make · n8n</div>
+      <div class="ecard-desc">CRM entegrasyonları, Klaviyo, ActiveCampaign, Mailchimp, Webhook, REST API, Datalayer mimarisi.</div>
+    </div>
+    <div class="ecard">
+      <div class="ecard-lbl">Raporlama</div>
+      <div class="ecard-title">Looker Studio Dashboard</div>
+      <div class="ecard-desc">Google, Meta, pazaryeri ve e-ticaret verilerini tek panelde birleştiren özel raporlama sistemi.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== REFERANSLAR ====== -->
+<section class="sep rv" id="referanslar">
+  <div class="s-lbl">Seçili Referanslar</div>
+  <p class="ref-sub">Türkiye'nin dev markalarından sıfırdan büyüttüklerimize — her ölçekte çalışıyoruz.</p>
+  <ul class="rlist">
+    <li class="ritem"><div class="rleft"><span class="rname">VESTEL</span><span class="rtag">Elektronik</span></div><span class="rarr">↗</span></li>
+    <li class="ritem"><div class="rleft"><span class="rname">BRUNO GRUP</span><span class="rtag">4 Yıldır Türkiye'nin Yıldızı</span></div><span class="rarr">↗</span></li>
+    <li class="ritem"><div class="rleft"><span class="rname">ALPİGRAF</span><span class="rtag">Türkiye'nin Sticker Deposu</span></div><span class="rarr">↗</span></li>
+    <li class="ritem"><div class="rleft"><span class="rname">MOOD MOBİLYA</span><span class="rtag">Mobilya & Aksesuar</span></div><span class="rarr">↗</span></li>
+    <li class="ritem"><div class="rleft"><span class="rname">CRN CREATIVE</span><span class="rtag">Yaratıcı Tasarım Ajansı</span></div><span class="rarr">↗</span></li>
+    <li class="ritem"><div class="rleft"><span class="rname">ANADOLU SES</span><span class="rtag">Ses Işık Görüntü Sistemleri</span></div><span class="rarr">↗</span></li>
+    <li class="ritem"><div class="rleft"><span class="rname">VİPMOTO</span><span class="rtag">Otomotiv & Aksesuar</span></div><span class="rarr">↗</span></li>
+    <li class="ritem"><div class="rleft"><span class="rname">PARTİ KIRTASİYE</span><span class="rtag">Kırtasiye & Parti Malzemeleri</span></div><span class="rarr">↗</span></li>
+    <li class="ritem"><div class="rleft"><span class="rname">OP DR EROL BAHTİYAR</span><span class="rtag">Sağlık — Sıfırdan Marka</span></div><span class="rarr">↗</span></li>
+  </ul>
+</section>
+
+<!-- ====== PARTNERS ====== -->
+<section class="sep rv" style="overflow:hidden">
+  <div class="s-lbl">Sertifikalar & Ortaklıklar</div>
+  <div class="ptrack">
+    <span class="pbadge">Google Partner</span><span class="pbadge">Meta Business</span>
+    <span class="pbadge">Ticimax</span><span class="pbadge">IKAS</span>
+    <span class="pbadge">IdeaSoft</span><span class="pbadge">AkinSoft</span>
+    <span class="pbadge">T-Soft</span>
+    <span class="pbadge">Google Partner</span><span class="pbadge">Meta Business</span>
+    <span class="pbadge">Ticimax</span><span class="pbadge">IKAS</span>
+    <span class="pbadge">IdeaSoft</span><span class="pbadge">AkinSoft</span>
+    <span class="pbadge">T-Soft</span>
+  </div>
+</section>
+
+<!-- ====== İLETİŞİM ====== -->
+<section class="sep rv" id="iletisim">
+  <div class="s-lbl">İletişim</div>
+  <div class="contact-grid">
+    <div>
+      <h2 class="contact-hl">PROJENİZİ<br><span class="ac">KONUŞALIM.</span></h2>
+      <div class="contact-info">
+        <div class="c-item">E-posta<a href="mailto:medyawix@gmail.com">medyawix@gmail.com</a></div>
+        <div class="c-item">Telefon<a href="tel:+905325751971">+90 532 575 19 71</a></div>
+        <div class="c-item">Adres<span>Akdeniz, Atatürk Cd. No:126<br>35210 İzmir, Türkiye</span></div>
+      </div>
+      <div class="c-btns">
+        <a href="mailto:medyawix@gmail.com" class="c-btn">E-posta Gönder ↗</a>
+        <a href="https://wa.me/905325751971" class="c-btn outline" target="_blank">WhatsApp ↗</a>
+      </div>
+    </div>
+    <div class="map-wrap">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3127.8!2d27.142826!3d38.423734!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzjCsDI1JzI1LjQiTiAyN8KwMDgnMzQuMiJF!5e0!3m2!1str!2str!4v1"
+        allowfullscreen loading="lazy">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ====== FOOTER ====== -->
+<footer>
+  <div class="f-logo">WixMedya</div>
+  <div class="f-copy">© 2026 WixMedya. Tüm hakları saklıdır.</div>
+  <div class="f-links">
+    <a href="#">İzmir, TR</a>
+    <a href="mailto:medyawix@gmail.com">E-posta</a>
+    <a href="tel:+905325751971">+90 532 575 19 71</a>
+  </div>
+</footer>
+
+<script>
+/* ====== YILDIZLAR ====== */
+(function(){
+  var s=document.getElementById("stars");
+  for(var i=0;i<120;i++){
+    var d=document.createElement("div");
+    d.className="star";
+    var sz=Math.random()*2.5+.5;
+    d.style.cssText="width:"+sz+"px;height:"+sz+"px;"
+      +"left:"+(Math.random()*100)+"%;top:"+(Math.random()*100)+"%;"
+      +"animation-duration:"+(Math.random()*4+2)+"s;"
+      +"animation-delay:"+(Math.random()*4)+"s;";
+    s.appendChild(d);
+  }
+})();
+
+/* ====== INTRO KAPAT + HERO BAŞLAT ====== */
+window.addEventListener("load",function(){
+  setTimeout(function(){
+    document.getElementById("intro").classList.add("hide");
+    setTimeout(function(){
+      ["heroQ","heroMain","heroLine","heroDesc","heroCta"].forEach(function(id){
+        var el=document.getElementById(id);
+        if(el)el.classList.add("go");
+      });
+      startMorph();
+    },600);
+  },3800);
+});
+
+/* ====== HERO MORPHING TEXT ====== */
+var morphWords=[
+  {text:"Marka mı?",color:true},
+  {text:"Satış mı?",color:true},
+  {text:"Görünürlük mü?",color:true},
+  {text:"Otomasyon mu?",color:true},
+  {text:"Reklam mı?",color:true},
+  {text:"Hepsi mi?",color:true}
+];
+var morphIdx=0;
+function startMorph(){
+  setInterval(function(){
+    morphIdx=(morphIdx+1)%morphWords.length;
+    var el=document.getElementById("morphText");
+    if(!el)return;
+    el.style.opacity="0";
+    el.style.transform="translateY(15px)";
+    setTimeout(function(){
+      el.textContent=morphWords[morphIdx].text;
+      el.style.transition="opacity .5s ease,transform .5s ease";
+      el.style.opacity="1";
+      el.style.transform="translateY(0)";
+    },300);
+  },2000);
+}
+
+/* ====== CURSOR ====== */
+var cur=document.getElementById("cur"),curR=document.getElementById("curR");
+if(cur&&getComputedStyle(cur).display!=="none"){
+  var mx=0,my=0,rx=0,ry=0;
+  document.addEventListener("mousemove",function(e){
+    mx=e.clientX;my=e.clientY;
+    cur.style.left=mx+"px";cur.style.top=my+"px";
+  });
+  (function a(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;curR.style.left=rx+"px";curR.style.top=ry+"px";requestAnimationFrame(a)})();
+  document.querySelectorAll("a,button,.svc,.ritem,.ecard,.pbadge,.hook-item").forEach(function(el){
+    el.addEventListener("mouseenter",function(){curR.classList.add("big")});
+    el.addEventListener("mouseleave",function(){curR.classList.remove("big")});
+  });
+}
+
+/* ====== MENU ====== */
+var mOpen=false;
+function toggleMenu(){
+  mOpen=!mOpen;
+  document.getElementById("overlay").classList.toggle("open",mOpen);
+  document.getElementById("navBtn").classList.toggle("open",mOpen);
+  document.getElementById("navLbl").textContent=mOpen?"Kapat":"Menü";
+}
+function closeMenu(){
+  mOpen=false;
+  document.getElementById("overlay").classList.remove("open");
+  document.getElementById("navBtn").classList.remove("open");
+  document.getElementById("navLbl").textContent="Menü";
+}
+
+/* ====== SCROLL REVEAL ====== */
+var ro=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add("in")});
+},{threshold:0.06});
+document.querySelectorAll(".rv").forEach(function(el){ro.observe(el)});
+</script>
+</body>
+</html>
