@@ -29,100 +29,100 @@ a{text-decoration:none;color:inherit}
   background:#000;
   display:flex;align-items:center;justify-content:center;
   overflow:hidden;
-  transition:opacity 1.2s ease,visibility 1.2s ease;
+  transition:opacity 1s ease,visibility 1s ease;
 }
 #intro.hide{opacity:0;visibility:hidden;pointer-events:none}
 
-/* Yıldızlar */
 .i-stars{position:absolute;inset:0;overflow:hidden}
 .i-star{position:absolute;background:#fff;border-radius:50%;animation:sTwinkle linear infinite}
-@keyframes sTwinkle{0%,100%{opacity:.1}50%{opacity:.8}}
+@keyframes sTwinkle{0%,100%{opacity:.1}50%{opacity:.9}}
 
-/* Şimşek zigzag */
-.lightning{
-  position:absolute;
-  top:0;left:50%;
-  transform:translateX(-50%);
-  width:100%;
-  height:100%;
-  pointer-events:none;
+/* Şimşek — 3 ayrı patlama */
+.flash1{
+  position:absolute;inset:0;
+  background:#fff;
   opacity:0;
-  animation:lFlash .15s 0.6s ease-out forwards,
-             lFlash2 .12s 0.85s ease-out forwards,
-             lFlash3 .2s 1.0s ease-out forwards;
+  animation:f1 .08s .3s ease-out forwards;
+}
+@keyframes f1{0%{opacity:0}20%{opacity:.95}100%{opacity:0}}
+
+.flash2{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 30%,#a78bfa 0%,#60a5fa 40%,transparent 75%);
+  opacity:0;
+  animation:f2 .15s .42s ease-out forwards;
+}
+@keyframes f2{0%{opacity:0}15%{opacity:1}100%{opacity:0}}
+
+.flash3{
+  position:absolute;inset:0;
+  background:#fff;
+  opacity:0;
+  animation:f3 .06s .65s ease-out forwards;
+}
+@keyframes f3{0%{opacity:0}30%{opacity:.7}100%{opacity:0}}
+
+.flash4{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 40%,rgba(139,92,246,.5) 0%,rgba(96,165,250,.3) 50%,transparent 75%);
+  opacity:0;
+  animation:f4 .4s .68s ease-out forwards;
+}
+@keyframes f4{0%{opacity:0}20%{opacity:.8}100%{opacity:0}}
+
+/* Şimşek çizgisi SVG */
+.lightning{
+  position:absolute;inset:0;
+  pointer-events:none;opacity:0;
+  animation:lShow .1s .32s ease forwards, lHide .15s .5s ease forwards;
 }
 .lightning svg{width:100%;height:100%}
-@keyframes lFlash{
-  0%{opacity:0}
-  30%{opacity:1;filter:drop-shadow(0 0 30px #7b5ce5) drop-shadow(0 0 80px #4a90e2)}
-  100%{opacity:0}
-}
-@keyframes lFlash2{
-  0%{opacity:0}
-  30%{opacity:.7;filter:drop-shadow(0 0 20px #fff) drop-shadow(0 0 50px #7b5ce5)}
-  100%{opacity:0}
-}
-@keyframes lFlash3{
-  0%{opacity:0}
-  20%{opacity:.9;filter:drop-shadow(0 0 40px #4a90e2) drop-shadow(0 0 100px #7b5ce5)}
-  60%{opacity:.3}
-  100%{opacity:0}
-}
+@keyframes lShow{to{opacity:1}}
+@keyframes lHide{to{opacity:0}}
 
-/* Ekran parlama */
-.flash-overlay{
-  position:absolute;inset:0;
-  background:radial-gradient(ellipse at 50% 40%, rgba(123,92,229,.6) 0%, rgba(74,144,226,.3) 40%, transparent 70%);
-  opacity:0;
-  animation:flashGlow .3s 0.65s ease-out forwards,
-             flashGlow2 .25s 0.88s ease-out forwards;
-}
-@keyframes flashGlow{
-  0%{opacity:0}40%{opacity:1}100%{opacity:0}
-}
-@keyframes flashGlow2{
-  0%{opacity:0}30%{opacity:.6}100%{opacity:0}
-}
-
-/* WİXMEDYA doğuyor */
+/* WİXMEDYA — güçlü çıkış */
 .i-brand-wrap{
   position:relative;z-index:2;
   display:flex;flex-direction:column;align-items:center;gap:.8rem;
   opacity:0;
-  animation:brandEmerge .8s 1.2s cubic-bezier(.23,1,.32,1) forwards;
+  animation:brandSlam .6s .85s cubic-bezier(.2,0,.1,1.5) forwards;
 }
-@keyframes brandEmerge{
-  0%{opacity:0;transform:scale(.9) translateY(20px);filter:blur(8px)}
-  60%{filter:blur(0)}
-  100%{opacity:1;transform:scale(1) translateY(0);filter:blur(0)}
+@keyframes brandSlam{
+  0%{opacity:0;transform:scale(1.3);filter:blur(12px)}
+  50%{filter:blur(2px)}
+  100%{opacity:1;transform:scale(1);filter:blur(0)}
 }
 .i-brand{
   font-family:var(--fb);
-  font-size:clamp(2.5rem,11vw,9rem);
-  letter-spacing:.1em;
-  background:linear-gradient(180deg,#fff 0%,var(--accent) 55%,#7b5ce5 100%);
-  -webkit-background-clip:text;background-clip:text;
-  color:transparent;
-  filter:drop-shadow(0 0 40px rgba(200,255,0,.5)) drop-shadow(0 0 80px rgba(123,92,229,.4));
-  animation:brandPulse 2s 1.8s ease-in-out infinite alternate;
+  font-size:clamp(3rem,13vw,11rem);
+  letter-spacing:.08em;
+  color:#fff;
+  text-shadow:
+    0 0 20px rgba(200,255,0,.9),
+    0 0 60px rgba(200,255,0,.6),
+    0 0 120px rgba(139,92,246,.5),
+    0 0 200px rgba(96,165,250,.3);
+  animation:brandGlow 1.5s 1.4s ease-in-out infinite alternate;
 }
-@keyframes brandPulse{
-  from{filter:drop-shadow(0 0 30px rgba(200,255,0,.4)) drop-shadow(0 0 60px rgba(123,92,229,.3))}
-  to{filter:drop-shadow(0 0 60px rgba(200,255,0,.7)) drop-shadow(0 0 120px rgba(123,92,229,.5))}
+@keyframes brandGlow{
+  from{text-shadow:0 0 20px rgba(200,255,0,.8),0 0 60px rgba(200,255,0,.5),0 0 100px rgba(139,92,246,.4)}
+  to{text-shadow:0 0 40px rgba(200,255,0,1),0 0 100px rgba(200,255,0,.7),0 0 180px rgba(139,92,246,.6),0 0 260px rgba(96,165,250,.3)}
 }
 .i-line{
-  width:0;height:1px;
-  background:linear-gradient(to right,transparent,var(--accent),#7b5ce5,transparent);
-  animation:iLine .6s 1.8s ease forwards;
+  width:0;height:2px;
+  background:linear-gradient(to right,transparent,var(--accent),#a78bfa,transparent);
+  box-shadow:0 0 10px var(--accent);
+  animation:iLine .5s 1.4s ease forwards;
 }
-@keyframes iLine{to{width:min(400px,80vw)}}
+@keyframes iLine{to{width:min(450px,85vw)}}
 .i-sub{
-  font-family:var(--fu);font-size:clamp(.55rem,1.4vw,.78rem);
-  font-weight:700;letter-spacing:.4em;text-transform:uppercase;
-  color:rgba(200,255,0,.7);
-  opacity:0;animation:iFadeUp .5s 2.2s ease forwards;
+  font-family:var(--fu);font-size:clamp(.6rem,1.5vw,.82rem);
+  font-weight:700;letter-spacing:.45em;text-transform:uppercase;
+  color:rgba(200,255,0,.8);
+  text-shadow:0 0 20px rgba(200,255,0,.5);
+  opacity:0;animation:iFadeUp .5s 1.8s ease forwards;
 }
-@keyframes iFadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes iFadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
 /* ====== NAV ====== */
 .nav{
@@ -294,9 +294,9 @@ section{padding:4rem 1.5rem}
 .ecard{background:var(--black);padding:1.25rem;transition:background .3s}
 .ecard:hover{background:#0e0e0e}
 .ecard-icon{width:30px;height:30px;margin-bottom:.7rem;border-radius:5px}
-.ecard-lbl{font-size:.56rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:.45rem}
+.ecard-lbl{font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:.45rem}
 .ecard-title{font-family:var(--fu);font-size:.9rem;font-weight:700;color:var(--white);margin-bottom:.45rem;line-height:1.2}
-.ecard-desc{font-size:.82rem;line-height:1.75;color:var(--gray)}
+.ecard-desc{font-size:.95rem;line-height:1.8;color:var(--gray)}
 .mpills{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:1.5rem}
 .mpill{font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);border:1px solid var(--border);padding:.3rem .7rem;transition:border-color .3s,color .3s}
 .mpill:hover{border-color:var(--accent);color:var(--accent)}
@@ -356,24 +356,35 @@ footer{border-top:1px solid var(--border);padding:1.75rem 1.5rem;display:flex;fl
 <!-- ====== INTRO ====== -->
 <div id="intro">
   <div class="i-stars" id="iStars"></div>
-  <div class="flash-overlay"></div>
+  <div class="flash1"></div>
+  <div class="flash2"></div>
+  <div class="flash3"></div>
+  <div class="flash4"></div>
   <div class="lightning">
     <svg viewBox="0 0 1440 900" preserveAspectRatio="none">
-      <polyline points="720,0 690,180 730,200 680,380 740,400 660,600 720,620 650,900"
-        stroke="url(#lg1)" stroke-width="3" fill="none" stroke-linecap="round"/>
-      <polyline points="720,0 750,150 700,180 760,350 690,380 750,580 710,610 780,900"
-        stroke="url(#lg2)" stroke-width="1.5" fill="none" stroke-linecap="round" opacity=".6"/>
       <defs>
         <linearGradient id="lg1" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#ffffff"/>
-          <stop offset="40%" stop-color="#7b5ce5"/>
-          <stop offset="100%" stop-color="#4a90e2"/>
+          <stop offset="0%" stop-color="#fff" stop-opacity="1"/>
+          <stop offset="30%" stop-color="#a78bfa"/>
+          <stop offset="70%" stop-color="#60a5fa"/>
+          <stop offset="100%" stop-color="#a78bfa" stop-opacity=".3"/>
         </linearGradient>
-        <linearGradient id="lg2" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#c8ff00"/>
-          <stop offset="100%" stop-color="#7b5ce5"/>
-        </linearGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="4" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
       </defs>
+      <!-- Ana şimşek -->
+      <polyline points="720,0 695,120 740,145 685,290 750,310 670,480 735,500 650,700 720,720 640,900"
+        stroke="url(#lg1)" stroke-width="4" fill="none" stroke-linecap="round" filter="url(#glow)"/>
+      <!-- İkincil dallanma -->
+      <polyline points="735,310 800,380 760,420 820,500"
+        stroke="#a78bfa" stroke-width="2" fill="none" stroke-linecap="round" opacity=".7" filter="url(#glow)"/>
+      <polyline points="670,480 600,560 640,590"
+        stroke="#60a5fa" stroke-width="1.5" fill="none" stroke-linecap="round" opacity=".5"/>
+      <!-- Parlak çekirdek -->
+      <polyline points="720,0 695,120 740,145 685,290 750,310 670,480 735,500 650,700 720,720 640,900"
+        stroke="#fff" stroke-width="1.5" fill="none" stroke-linecap="round" opacity=".8"/>
     </svg>
   </div>
   <div class="i-brand-wrap">
@@ -414,7 +425,7 @@ footer{border-top:1px solid var(--border);padding:1.75rem 1.5rem;display:flex;fl
 <!-- ====== HERO ====== -->
 <section class="hero" id="top">
   <div class="hero-video-wrap">
-    <video autoplay muted loop playsinline preload="metadata">
+    <video autoplay muted loop playsinline webkit-playsinline preload="metadata" x5-playsinline>
       <source src="https://medyawix-kahraman.github.io/www.wixmedya.com/web.mp4" type="video/mp4">
     </video>
   </div>
@@ -495,7 +506,7 @@ footer{border-top:1px solid var(--border);padding:1.75rem 1.5rem;display:flex;fl
         <div class="b-dot" style="background:#28c840"></div>
         <div class="b-url"><span>wixmedya.com</span></div>
       </div>
-      <video autoplay muted loop playsinline>
+      <video autoplay muted loop playsinline webkit-playsinline x5-playsinline>
         <source src="https://medyawix-kahraman.github.io/www.wixmedya.com/web.mp4" type="video/mp4">
       </video>
       <div class="scene-video-overlay"></div>
@@ -521,7 +532,7 @@ footer{border-top:1px solid var(--border);padding:1.75rem 1.5rem;display:flex;fl
         <div class="b-dot" style="background:#28c840"></div>
         <div class="b-url"><span>ads.google.com</span></div>
       </div>
-      <video autoplay muted loop playsinline>
+      <video autoplay muted loop playsinline webkit-playsinline x5-playsinline>
         <source src="https://medyawix-kahraman.github.io/www.wixmedya.com/google.mp4" type="video/mp4">
       </video>
       <div class="scene-video-overlay"></div>
@@ -547,7 +558,7 @@ footer{border-top:1px solid var(--border);padding:1.75rem 1.5rem;display:flex;fl
         <div class="b-dot" style="background:#28c840"></div>
         <div class="b-url"><span>business.facebook.com</span></div>
       </div>
-      <video autoplay muted loop playsinline>
+      <video autoplay muted loop playsinline webkit-playsinline x5-playsinline>
         <source src="https://medyawix-kahraman.github.io/www.wixmedya.com/meta.mp4" type="video/mp4">
       </video>
       <div class="scene-video-overlay"></div>
@@ -573,7 +584,7 @@ footer{border-top:1px solid var(--border);padding:1.75rem 1.5rem;display:flex;fl
         <div class="b-dot" style="background:#28c840"></div>
         <div class="b-url"><span>trendyol.com / hepsiburada.com</span></div>
       </div>
-      <video autoplay muted loop playsinline>
+      <video autoplay muted loop playsinline webkit-playsinline x5-playsinline>
         <source src="https://medyawix-kahraman.github.io/www.wixmedya.com/eticaret.mp4" type="video/mp4">
       </video>
       <div class="scene-video-overlay"></div>
@@ -599,7 +610,7 @@ footer{border-top:1px solid var(--border);padding:1.75rem 1.5rem;display:flex;fl
         <div class="b-dot" style="background:#28c840"></div>
         <div class="b-url"><span>Brand Identity Studio</span></div>
       </div>
-      <video autoplay muted loop playsinline>
+      <video autoplay muted loop playsinline webkit-playsinline x5-playsinline>
         <source src="https://medyawix-kahraman.github.io/www.wixmedya.com/marka.mp4" type="video/mp4">
       </video>
       <div class="scene-video-overlay"></div>
@@ -625,7 +636,7 @@ footer{border-top:1px solid var(--border);padding:1.75rem 1.5rem;display:flex;fl
         <div class="b-dot" style="background:#28c840"></div>
         <div class="b-url"><span>Automation Dashboard</span></div>
       </div>
-      <video autoplay muted loop playsinline>
+      <video autoplay muted loop playsinline webkit-playsinline x5-playsinline>
         <source src="https://medyawix-kahraman.github.io/www.wixmedya.com/otomasyon.mp4" type="video/mp4">
       </video>
       <div class="scene-video-overlay"></div>
